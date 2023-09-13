@@ -17,17 +17,16 @@ def create():
     if request.method == 'POST':
         data = request.get_json()
         if data is None:
-            return jsonify({'error': 'Invalid JSON data'}), 400
+            return jsonify({'error': 'Name is required'}), 400
         name = data.get('name')
         if name and isinstance(name, str):
             new_user = User(name=name)
             db.session.add(new_user)
             db.session.commit()
-            return jsonify({'message': 'User created successfully'})
-        return jsonify({'error': 'Name is required'}), 400    
+            return jsonify({'message': 'User created successfully'})    
 
 @app.route('/api/<id>', methods=['GET', 'PUT', 'DELETE'])
-def user_detail(id, name=None):
+def user_detail(id):
     """ a function that read user details from db """
     
     user = User.query.get(id)
