@@ -25,12 +25,14 @@ def create():
             db.session.commit()
             return jsonify({'message': 'User created successfully'})    
 
-@app.route('/api/<id>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/api/<string:id>', methods=['GET', 'PUT', 'DELETE'])
 def user_detail(id):
     """ a function that read user details from db """
     
     user = User.query.get(id)
     if not user:
+        user = User.query.filter(User.name.ilike(f"%{id}%")).first()
+    else:
         return jsonify({'error': 'User not found'}), 404
     
     if request.method == 'GET':
