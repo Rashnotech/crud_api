@@ -26,11 +26,11 @@ def create():
             return jsonify({'message': 'User created successfully'})
         return jsonify({'error': 'Name is required'}), 400    
 
-@app.route('/api/<int:id>', methods=['GET', 'PUT', 'DELETE'])
-def user_detail(id):
+@app.route('/api/<id>', methods=['GET', 'PUT', 'DELETE'])
+def user_detail(id, name=None):
     """ a function that read user details from db """
+    
     user = User.query.get(id)
-
     if not user:
         return jsonify({'error': 'User not found'}), 404
     
