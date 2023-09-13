@@ -32,8 +32,8 @@ def user_detail(id):
     user = User.query.get(id)
     if not user:
         user = User.query.filter(User.name.ilike(f"%{id}%")).first()
-    else:
-        return jsonify({'error': 'User not found'}), 404
+        if not user:
+            return jsonify({'error': 'User not found'}), 404
     
     if request.method == 'GET':
         return jsonify({'id': user.user_id, 'name': user.name})
