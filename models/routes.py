@@ -3,7 +3,7 @@ from models import app, request, jsonify, db
 from models.User import User
 from models import datetime
 
-
+@app.route('/', methods=['POST', 'GET'])
 @app.route('/api', methods=['POST', 'GET'])
 def create():
     """ a function that handles create function"""
