@@ -33,7 +33,13 @@ def user_detail(id):
     if not user:
         user = User.query.filter(User.name.ilike(f"%{id}%")).first()
         if not user:
-            return jsonify({'error': 'User not found'}), 404
+            if id.isalpha() and not id.isdigit():
+                new_user = User(name=id)
+                db.session.add(new_user)
+                db.session.commit()
+                return jsonify({'message': 'User created successfully'})    
+            else:
+                return jsonify({'error': 'User not found'}), 404
     
     if request.method == 'GET':
         return jsonify({'id': user.user_id, 'name': user.name})
